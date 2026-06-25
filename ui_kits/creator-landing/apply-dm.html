@@ -1,0 +1,182 @@
+<!-- @dsCard group="Creator Landing" viewport="1280x900" subtitle="creators.snackpass.co/apply — DM-to-apply variant" name="Creator application (DM)" -->
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snackpass — apply for creator access</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  *{box-sizing:border-box;margin:0;}
+  html{scroll-behavior:smooth;overflow-x:clip;}
+  body{font-family:var(--font-text);color:var(--sp-navy);background:var(--sp-white);-webkit-font-smoothing:antialiased;overflow-x:clip;}
+  h1,h2,h3{font-family:var(--font-display);letter-spacing:-0.03em;font-weight:800;text-transform:lowercase;line-height:1.02;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+  @keyframes popIn{0%{opacity:0;transform:scale(.9) translateY(8px);}100%{opacity:1;transform:scale(1) translateY(0);}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;}}
+
+  /* ---- buttons ---- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-text);font-weight:600;cursor:pointer;border:none;transition:transform var(--dur-fast) var(--ease-spring),filter var(--dur-base) var(--ease-out);}
+  .btn:active{transform:scale(.97);}
+  .btn-ghost{background:transparent;color:var(--sp-navy);border:1.5px solid var(--sp-line);padding:11px 20px;border-radius:var(--radius-pill);font-size:15px;}
+  .btn-ghost:hover{border-color:var(--sp-blue);color:var(--sp-blue);}
+  .btn-block{width:100%;}
+
+  /* instagram gradient button */
+  .ig-btn{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;padding:16px;border-radius:var(--radius-md);color:#fff;font-weight:700;font-size:16px;cursor:pointer;border:none;background:linear-gradient(95deg,#F58529 0%,#DD2A7B 45%,#8134AF 75%,#515BD4 100%);box-shadow:0 8px 22px rgba(221,42,123,.28);transition:transform var(--dur-fast) var(--ease-spring),filter var(--dur-base);}
+  .ig-btn:hover{filter:brightness(1.05);}
+  .ig-btn:active{transform:scale(.98);}
+
+  /* ---- nav ---- */
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--sp-line);}
+  .navin{display:flex;align-items:center;gap:28px;height:72px;position:relative;}
+  .navin .logo{height:26px;}
+  .navcta{margin-left:auto;display:flex;gap:10px;align-items:center;}
+  .navcta .help{font-weight:600;font-size:14px;color:var(--sp-slate);display:inline-flex;align-items:center;gap:6px;}
+  .navcta .help:hover{color:var(--sp-blue);}
+
+  /* ---- shell ---- */
+  .shell{position:relative;background:var(--gradient-aurora);min-height:calc(100vh - 72px);overflow-x:clip;}
+  .shell .grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:56px 32px 72px;max-width:1180px;margin:0 auto;}
+
+  /* ---- left brand rail ---- */
+  .rail-brand{position:relative;animation:fadeUp .6s var(--ease-spring) both;}
+  .rail-brand .badge{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--sp-line);border-radius:var(--radius-pill);padding:6px 15px 6px 7px;box-shadow:var(--shadow-xs);font-weight:600;font-size:13.5px;}
+  .rail-brand .badge .n{font-family:var(--font-display);font-weight:800;font-size:13px;color:#fff;background:var(--gradient-product);padding:5px 11px;border-radius:var(--radius-pill);letter-spacing:-0.02em;box-shadow:var(--shadow-blue-sm);}
+  .rail-brand h1{font-size:clamp(32px,4.6vw,50px);margin:22px 0 18px;max-width:520px;}
+  .rail-brand h1 .accent{color:var(--sp-blue);}
+  .rail-brand p.lede{font-size:18px;line-height:1.55;color:var(--sp-slate);max-width:430px;}
+  .perks{margin-top:30px;display:flex;flex-direction:column;gap:14px;}
+  .perk{display:flex;align-items:center;gap:13px;font-size:15.5px;font-weight:500;color:var(--sp-navy);}
+  .perk .pi{width:38px;height:38px;border-radius:11px;background:#fff;border:1px solid var(--sp-line);display:flex;align-items:center;justify-content:center;color:var(--sp-blue);box-shadow:var(--shadow-xs);flex:none;}
+  .avline{margin-top:30px;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--sp-slate);}
+  .avstack{display:flex;}
+  .avstack i{width:34px;height:34px;border-radius:50%;border:2.5px solid #fff;margin-left:-9px;display:block;overflow:hidden;background:var(--sp-mist);box-shadow:var(--shadow-xs);}
+  .avstack i:first-child{margin-left:0;}
+  .avstack i .avvid{width:100%;height:100%;object-fit:cover;display:block;}
+
+  /* ---- card ---- */
+  .card{position:relative;background:#fff;border:1px solid var(--sp-line);border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);padding:40px 34px 34px;max-width:480px;width:100%;justify-self:end;text-align:center;animation:popIn .5s var(--ease-spring) both;}
+  .card .ig-badge{width:72px;height:72px;border-radius:20px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(95deg,#F58529 0%,#DD2A7B 45%,#8134AF 75%,#515BD4 100%);box-shadow:0 10px 26px rgba(221,42,123,.3);}
+  .card .eyebrow{font-family:var(--font-text);font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--sp-blue);}
+  .card h2{font-size:30px;margin:8px 0 10px;}
+  .card .sub{font-size:16px;color:var(--sp-slate);line-height:1.55;margin-bottom:26px;max-width:360px;margin-left:auto;margin-right:auto;}
+  .card .fineprint{font-size:13px;color:var(--sp-slate);margin-top:18px;}
+  .card .fineprint a{color:var(--sp-blue);font-weight:600;}
+
+  /* ---- modal ---- */
+  .overlay{position:fixed;inset:0;background:rgba(10,37,64,.45);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity var(--dur-base) var(--ease-out);z-index:90;}
+  .overlay.show{opacity:1;pointer-events:auto;}
+  .modal{position:relative;background:#fff;border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);max-width:400px;width:100%;padding:34px 30px 28px;text-align:center;transform:scale(.92) translateY(10px);transition:transform var(--dur-slow) var(--ease-spring);}
+  .overlay.show .modal{transform:none;}
+  .modal .close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:none;background:var(--sp-mist);color:var(--sp-slate);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background var(--dur-base),color var(--dur-base);}
+  .modal .close:hover{background:var(--sp-line);color:var(--sp-navy);}
+  .modal .ig-badge{width:60px;height:60px;border-radius:17px;margin:2px auto 16px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(95deg,#F58529 0%,#DD2A7B 45%,#8134AF 75%,#515BD4 100%);box-shadow:0 8px 22px rgba(221,42,123,.3);}
+  .modal h3{font-size:23px;margin-bottom:8px;line-height:1.2;}
+  .modal h3 .accent{color:var(--sp-blue);}
+  .modal p{font-size:14.5px;color:var(--sp-slate);line-height:1.5;margin-bottom:18px;}
+  .modal p b{color:var(--sp-navy);}
+  .keyword{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--sp-mist);border:1.5px dashed var(--sp-blue);border-radius:var(--radius-md);padding:12px 12px 12px 18px;margin-bottom:18px;}
+  .keyword .kw{font-family:var(--font-display);font-weight:800;font-size:21px;color:var(--sp-blue);letter-spacing:-.01em;}
+  .keyword .copy{background:#fff;border:1px solid var(--sp-line);border-radius:var(--radius-sm);cursor:pointer;color:var(--sp-slate);display:inline-flex;align-items:center;gap:6px;font-family:var(--font-text);font-weight:600;font-size:12.5px;padding:7px 11px;transition:color var(--dur-base),border-color var(--dur-base);}
+  .keyword .copy:hover{color:var(--sp-blue);border-color:var(--sp-blue);}
+  .modal .note{font-size:12.5px;color:var(--sp-slate);margin-top:14px;}
+
+  /* ---- responsive ---- */
+  @media (max-width:920px){
+    .shell .grid{grid-template-columns:1fr;gap:34px;padding:40px 24px 56px;}
+    .rail-brand{text-align:center;}
+    .rail-brand h1,.rail-brand p.lede{margin-left:auto;margin-right:auto;}
+    .perks{max-width:330px;margin-left:auto;margin-right:auto;}
+    .avline{justify-content:center;}
+    .card{justify-self:center;}
+  }
+  @media (max-width:520px){
+    .wrap{padding:0 18px;}
+    .card{padding:32px 22px 26px;border-radius:var(--radius-lg);}
+    .rail-brand .perks{display:none;}
+  }
+</style>
+</head>
+<body>
+
+  <nav><div class="wrap navin">
+    <a href="index.html"><img class="logo" src="../../assets/logos/logo-lockup-blue.png" alt="Snackpass"></a>
+    <div class="navcta">
+      <a class="help" href="#"><i data-lucide="life-buoy" style="width:17px;height:17px;"></i> need help?</a>
+    </div>
+  </div></nav>
+
+  <main class="shell"><div class="grid">
+
+    <!-- LEFT: brand rail -->
+    <div class="rail-brand">
+      <span class="badge"><span class="n">20K+</span> creator network</span>
+      <h1>apply to the <span class="accent">creator network</span>.</h1>
+      <p class="lede">join a network of top creators unlocking exclusive brand collaborations.</p>
+      <div class="perks">
+        <div class="perk"><span class="pi"><i data-lucide="utensils" style="width:18px;height:18px;"></i></span> get free meals &amp; paid campaigns</div>
+        <div class="perk"><span class="pi"><i data-lucide="store" style="width:18px;height:18px;"></i></span> collab with local spots near you</div>
+        <div class="perk"><span class="pi"><i data-lucide="zap" style="width:18px;height:18px;"></i></span> no awkward dms — it's all in the app</div>
+      </div>
+      <div class="avline">
+        <span class="avstack">
+          <i><video class="avvid" src="../../assets/media/reel-wowtea.mp4" muted loop playsinline autoplay preload="metadata"></video></i>
+          <i><video class="avvid" src="../../assets/media/reel-katsu.mp4" muted loop playsinline autoplay preload="metadata"></video></i>
+          <i><video class="avvid" src="../../assets/media/reel-mochiholic.mp4" muted loop playsinline autoplay preload="metadata"></video></i>
+          <i><video class="avvid" src="../../assets/media/reel-ricedynasty.mp4" muted loop playsinline autoplay preload="metadata"></video></i>
+        </span>
+        joined by top creators in the US
+      </div>
+    </div>
+
+    <!-- RIGHT: apply card -->
+    <div class="card">
+      <div class="ig-badge"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></div>
+      <span class="eyebrow">instant apply</span>
+      <h2>apply in one dm</h2>
+      <p class="sub">no forms, no waiting — just send us a quick message on instagram and our team takes it from there.</p>
+      <button class="ig-btn" id="openModal"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg> apply via instagram</button>
+      <p class="fineprint">prefer a form? <a href="apply.html">apply here instead →</a></p>
+    </div>
+  </div></main>
+
+  <!-- POPUP -->
+  <div class="overlay" id="overlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="close" id="closeModal" aria-label="close"><i data-lucide="x" style="width:18px;height:18px;"></i></button>
+      <div class="ig-badge"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></div>
+      <h3 id="modalTitle">dm us <span class="accent">"creators"</span> on instagram</h3>
+      <p>send the word below to <b>@snackpass</b> and our team will reply to get you set up.</p>
+      <div class="keyword">
+        <span class="kw">creators</span>
+        <button class="copy" id="copyKw"><i data-lucide="copy" style="width:14px;height:14px;"></i> <span id="copyLbl">copy</span></button>
+      </div>
+      <a class="ig-btn" href="https://ig.me/m/snackpass" target="_blank" rel="noopener"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg> open instagram →</a>
+      <p class="note">we typically reply within a few hours.</p>
+    </div>
+  </div>
+
+  <script>
+    if(window.lucide) lucide.createIcons();
+    const $=s=>document.querySelector(s);
+    $$=s=>[...document.querySelectorAll(s)];
+    $$('video.avvid').forEach(v=>v.play().catch(()=>{}));
+
+    const overlay=$('#overlay');
+    const open=()=>overlay.classList.add('show');
+    const close=()=>overlay.classList.remove('show');
+    $('#openModal').addEventListener('click',open);
+    $('#closeModal').addEventListener('click',close);
+    overlay.addEventListener('click',e=>{ if(e.target===overlay) close(); });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape') close(); });
+
+    // copy keyword
+    $('#copyKw').addEventListener('click',()=>{
+      navigator.clipboard?.writeText('creators').catch(()=>{});
+      $('#copyLbl').textContent='copied!';
+      setTimeout(()=>{ $('#copyLbl').textContent='copy'; },1600);
+    });
+  </script>
+</body></html>
