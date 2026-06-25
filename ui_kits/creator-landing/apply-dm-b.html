@@ -1,4 +1,4 @@
-<!-- @dsCard group="Creator Landing" viewport="1280x900" subtitle="creators.snackpass.co/apply — DM-to-apply variant" name="Creator application (DM) — B" -->
+<!-- @dsCard group="Creator Landing" viewport="1280x900" subtitle="creators.snackpass.co/apply — form + finish-in-app variant" name="Creator application (Form) — B" -->
 <!DOCTYPE html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Snackpass — apply for creator access</title>
@@ -29,12 +29,18 @@
 
   @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
   @keyframes popIn{0%{opacity:0;transform:scale(.9) translateY(8px);}100%{opacity:1;transform:scale(1) translateY(0);}}
+  @keyframes checkPop{0%{transform:scale(0) rotate(-25deg);}60%{transform:scale(1.15) rotate(4deg);}100%{transform:scale(1) rotate(0);}}
+  @keyframes ringPulse{0%{transform:scale(.7);opacity:.5;}100%{transform:scale(1.9);opacity:0;}}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;}}
 
-  /* instagram gradient button */
-  .ig-btn{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;padding:16px;border-radius:var(--radius-md);color:#fff;font-weight:700;font-size:16px;cursor:pointer;border:none;background:linear-gradient(95deg,#F58529 0%,#DD2A7B 45%,#8134AF 75%,#515BD4 100%);box-shadow:0 8px 22px rgba(221,42,123,.28);transition:transform var(--dur-fast) var(--ease-spring),filter var(--dur-base);}
-  .ig-btn:hover{filter:brightness(1.05);}
-  .ig-btn:active{transform:scale(.98);}
+  /* ---- buttons ---- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-text);font-weight:600;cursor:pointer;border:none;transition:transform var(--dur-fast) var(--ease-spring),filter var(--dur-base) var(--ease-out),opacity var(--dur-base);}
+  .btn:active{transform:scale(.97);}
+  .btn[disabled]{opacity:.45;pointer-events:none;}
+  .btn-primary{background:var(--gradient-product);color:#fff;box-shadow:var(--shadow-blue-sm);padding:12px 22px;border-radius:var(--radius-pill);font-size:15px;}
+  .btn-primary:hover{filter:brightness(1.04);}
+  .btn-lg{padding:16px 30px;font-size:17px;border-radius:var(--radius-pill);}
+  .btn-block{width:100%;}
 
   /* ---- nav ---- */
   nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--sp-line);}
@@ -64,24 +70,90 @@
   .avstack i:first-child{margin-left:0;}
   .avstack i .avvid{width:100%;height:100%;object-fit:cover;display:block;}
 
-  /* ---- card (DM instruction shown directly) ---- */
-  .card{position:relative;background:#fff;border:1px solid var(--sp-line);border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);padding:38px 34px 32px;max-width:480px;width:100%;justify-self:end;text-align:center;animation:popIn .5s var(--ease-spring) both;}
-  .card .ig-badge{width:66px;height:66px;border-radius:19px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(95deg,#F58529 0%,#DD2A7B 45%,#8134AF 75%,#515BD4 100%);box-shadow:0 10px 26px rgba(221,42,123,.3);}
-  .card h2{font-size:27px;margin-bottom:10px;line-height:1.15;}
-  .card h2 .accent{color:var(--sp-blue);}
-  .card .sub{font-size:15.5px;color:var(--sp-slate);line-height:1.55;margin-bottom:22px;max-width:380px;margin-left:auto;margin-right:auto;}
-  .card .sub b{color:var(--sp-navy);}
+  /* ---- card ---- */
+  .card{position:relative;background:#fff;border:1px solid var(--sp-line);border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);padding:34px 34px 30px;max-width:480px;width:100%;justify-self:end;animation:popIn .5s var(--ease-spring) both;}
 
-  .keyword{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--sp-mist);border:1.5px dashed var(--sp-blue);border-radius:var(--radius-md);padding:12px 12px 12px 18px;margin-bottom:16px;}
-  .keyword .kw{font-family:var(--font-display);font-weight:800;font-size:21px;color:var(--sp-blue);letter-spacing:-.01em;}
-  .keyword .copy{background:#fff;border:1px solid var(--sp-line);border-radius:var(--radius-sm);cursor:pointer;color:var(--sp-slate);display:inline-flex;align-items:center;gap:6px;font-family:var(--font-text);font-weight:600;font-size:12.5px;padding:7px 11px;transition:color var(--dur-base),border-color var(--dur-base);}
-  .keyword .copy:hover{color:var(--sp-blue);border-color:var(--sp-blue);}
+  /* step rail */
+  .steps{display:flex;align-items:center;margin-bottom:26px;}
+  .steps .node{display:flex;align-items:center;gap:9px;}
+  .steps .dot{width:30px;height:30px;border-radius:50%;background:var(--sp-mist);color:var(--sp-slate);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex:none;transition:all var(--dur-base) var(--ease-spring);border:1.5px solid transparent;}
+  .steps .lbl{font-weight:600;font-size:13.5px;color:var(--sp-slate);white-space:nowrap;transition:color var(--dur-base);}
+  .steps .bar{flex:1;height:2px;background:var(--sp-line);margin:0 10px;border-radius:2px;position:relative;overflow:hidden;}
+  .steps .bar::after{content:"";position:absolute;inset:0;width:0;background:var(--gradient-product);transition:width var(--dur-slow) var(--ease-out);}
+  .steps .node.done .dot{background:var(--gradient-product);color:#fff;box-shadow:var(--shadow-blue-sm);}
+  .steps .node.active .dot{background:#fff;color:var(--sp-blue);border-color:var(--sp-blue);box-shadow:var(--focus-ring);}
+  .steps .node.active .lbl,.steps .node.done .lbl{color:var(--sp-navy);}
+  .steps .bar.filled::after{width:100%;}
 
-  .note{font-size:12.5px;color:var(--sp-slate);margin-top:14px;}
-  .fineprint{font-size:13px;color:var(--sp-slate);margin-top:18px;}
+  /* panes */
+  .pane{display:none;animation:fadeUp .4s var(--ease-out) both;}
+  .pane.show{display:block;}
+  .eyebrow{font-family:var(--font-text);font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--sp-blue);}
+
+  /* fields */
+  .field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
+  .field label{font-weight:600;font-size:13.5px;color:var(--sp-navy);}
+  .input{font-family:var(--font-text);font-size:16px;padding:14px 15px;border:1.5px solid var(--sp-line);border-radius:var(--radius-md);background:#fff;color:var(--sp-navy);outline:none;width:100%;transition:border-color var(--dur-base),box-shadow var(--dur-base);}
+  .input::placeholder{color:#9aa8b6;}
+  .input:focus{border-color:var(--sp-blue);box-shadow:var(--focus-ring);}
+  .phone-row{display:flex;gap:10px;}
+  .phone-row .cc{width:78px;flex:none;text-align:center;font-weight:600;}
+
+  .seg{display:inline-flex;background:#fff;border:1px solid var(--sp-line);border-radius:var(--radius-pill);padding:3px;gap:2px;width:100%;}
+  .seg button{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 12px;border-radius:var(--radius-pill);font-family:var(--font-text);font-weight:700;font-size:13.5px;color:var(--sp-slate);background:none;border:none;cursor:pointer;transition:all var(--dur-base);}
+  .seg button.on{background:var(--gradient-product);color:#fff;box-shadow:var(--shadow-blue-sm);}
+  .seg button svg{width:15px;height:15px;}
+  .platform{margin-bottom:10px;}
+
+  .handle-input{display:flex;align-items:center;border:1.5px solid var(--sp-line);border-radius:var(--radius-md);background:#fff;transition:border-color var(--dur-base),box-shadow var(--dur-base);}
+  .handle-input:focus-within{border-color:var(--sp-blue);box-shadow:var(--focus-ring);}
+  .handle-input .at{padding:0 2px 0 15px;color:var(--sp-slate);font-size:16px;font-weight:600;}
+  .handle-input input{flex:1;width:100%;border:none;outline:none;background:transparent;padding:14px 15px 14px 4px;font-size:16px;font-family:var(--font-text);color:var(--sp-navy);}
+  .handle-input input::placeholder{color:#9aa8b6;}
+
+  .select-wrap{position:relative;}
+  .select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:42px;}
+  .select.placeholder{color:#9aa8b6;}
+  .select-wrap .chev{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--sp-slate);pointer-events:none;}
+
+  .otp{display:flex;gap:10px;}
+  .otp input{width:100%;height:58px;text-align:center;font-family:var(--font-display);font-weight:800;font-size:24px;border:1.5px solid var(--sp-line);border-radius:var(--radius-md);outline:none;color:var(--sp-navy);transition:border-color var(--dur-base),box-shadow var(--dur-base);}
+  .otp input:focus{border-color:var(--sp-blue);box-shadow:var(--focus-ring);}
+  .resend{font-size:13.5px;color:var(--sp-slate);margin-top:14px;text-align:center;}
+  .resend a{color:var(--sp-blue);font-weight:600;}
+  .fineprint{font-size:12.5px;color:var(--sp-slate);line-height:1.5;margin-top:14px;text-align:center;}
   .fineprint a{color:var(--sp-blue);font-weight:600;}
 
-  /* ---- responsive ---- */
+  /* finish step */
+  .finish-head{text-align:center;}
+  .seal{position:relative;width:72px;height:72px;margin:2px auto 16px;}
+  .seal .ring{position:absolute;inset:0;border-radius:50%;border:2.5px solid var(--sp-blue);animation:ringPulse 2s var(--ease-out) infinite;}
+  .seal .core{position:absolute;inset:0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;background:var(--gradient-product);box-shadow:var(--shadow-blue);animation:checkPop .55s var(--ease-spring) both;}
+  .finish-head h2{font-size:28px;margin-bottom:8px;}
+  .finish-head .sub{font-size:15px;color:var(--sp-slate);line-height:1.5;margin-bottom:24px;max-width:360px;margin-left:auto;margin-right:auto;}
+
+  .steplist{list-style:none;display:flex;flex-direction:column;gap:18px;margin-bottom:8px;}
+  .steplist li{display:flex;gap:14px;align-items:flex-start;}
+  .steplist .num{width:30px;height:30px;border-radius:50%;background:var(--gradient-product);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:var(--shadow-blue-sm);}
+  .steplist .st-b{font-weight:700;font-size:15.5px;color:var(--sp-navy);}
+  .steplist .st-d{font-size:13.5px;color:var(--sp-slate);margin-top:3px;line-height:1.45;}
+  .steplist .badge-chip{display:inline-flex;align-items:center;gap:5px;background:var(--sp-mist);color:var(--sp-blue);font-weight:700;font-size:12.5px;padding:3px 9px;border-radius:var(--radius-pill);}
+
+  .stores{display:flex;gap:10px;margin-top:10px;}
+  .store{flex:1;display:flex;align-items:center;justify-content:center;gap:9px;background:#0A0A0A;color:#fff;border-radius:var(--radius-md);padding:10px 12px;transition:transform var(--dur-fast) var(--ease-spring),filter var(--dur-base);}
+  .store:hover{filter:brightness(1.18);}
+  .store:active{transform:scale(.97);}
+  .store svg{width:20px;height:20px;flex:none;}
+  .store .lbl2{display:flex;flex-direction:column;line-height:1.05;text-align:left;}
+  .store .lbl2 small{font-size:8.5px;opacity:.78;font-weight:500;text-transform:uppercase;letter-spacing:.03em;}
+  .store .lbl2 b{font-size:14px;font-weight:700;}
+
+  /* toast */
+  .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:var(--sp-navy);color:#fff;font-weight:600;font-size:14.5px;padding:13px 22px;border-radius:var(--radius-pill);box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:9px;opacity:0;pointer-events:none;transition:opacity var(--dur-base),transform var(--dur-base) var(--ease-spring);z-index:80;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .toast .tc{color:var(--sp-sky);}
+
+  /* responsive */
   @media (max-width:920px){
     .shell .grid{grid-template-columns:1fr;gap:34px;padding:40px 24px 56px;}
     .rail-brand{text-align:center;}
@@ -92,8 +164,9 @@
   }
   @media (max-width:520px){
     .wrap{padding:0 18px;}
-    .card{padding:30px 22px 26px;border-radius:var(--radius-lg);}
+    .card{padding:26px 22px 24px;border-radius:var(--radius-lg);}
     .rail-brand .perks{display:none;}
+    .steps .lbl{display:none;}
   }
 </style>
 </head>
@@ -129,31 +202,180 @@
       </div>
     </div>
 
-    <!-- RIGHT: DM instruction card -->
+    <!-- RIGHT: 2-step card -->
     <div class="card">
-      <div class="ig-badge"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></div>
-      <h2>dm us <span class="accent">"creators"</span> on instagram</h2>
-      <p class="sub">send the word below to <b>@snackpass</b> to apply — our team will review your profile and follow up about your application.</p>
-      <div class="keyword">
-        <span class="kw">creators</span>
-        <button class="copy" id="copyKw"><i data-lucide="copy" style="width:14px;height:14px;"></i> <span id="copyLbl">copy</span></button>
+      <div class="steps" id="steps">
+        <div class="node active" data-step="1"><span class="dot">1</span><span class="lbl">apply</span></div>
+        <div class="bar" data-bar="1"></div>
+        <div class="node" data-step="2"><span class="dot">2</span><span class="lbl">finish in app</span></div>
       </div>
-      <a class="ig-btn" href="https://ig.me/m/snackpass" target="_blank" rel="noopener"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg> open instagram →</a>
-      <p class="note">we typically reply within a few hours.</p>
-      <p class="fineprint"><a href="https://instagram.com/snackpass" target="_blank" rel="noopener">follow @snackpass</a> for collabs, events &amp; all things creators.</p>
+
+      <!-- STEP 1 — form -->
+      <section class="pane show" data-pane="1">
+        <span class="eyebrow">step 1 of 2</span>
+
+        <div id="phoneGroup">
+          <div class="field" style="margin-top:14px;">
+            <label for="name">your name</label>
+            <input class="input" id="name" placeholder="first &amp; last name" autocomplete="name">
+          </div>
+
+          <div class="field">
+            <label for="handle">your handle</label>
+            <div class="seg platform" id="platformSeg">
+              <button class="on" data-platform="instagram" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg> instagram</button>
+              <button data-platform="tiktok" type="button"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82a4.28 4.28 0 0 1-1.05-2.82h-3.3v12.43a2.5 2.5 0 1 1-2.5-2.5c.2 0 .4.03.59.08V9.6a5.8 5.8 0 1 0 5.21 5.77V9.01a7.5 7.5 0 0 0 4.45 1.45V7.16a4.28 4.28 0 0 1-3.4-1.34z"/></svg> tiktok</button>
+            </div>
+            <div class="handle-input">
+              <span class="at">@</span>
+              <input id="handle" placeholder="yourhandle" autocapitalize="none" autocomplete="off" spellcheck="false">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="city">where do you create?</label>
+            <div class="select-wrap">
+              <select class="input select placeholder" id="city">
+                <option value="" selected disabled hidden>select your city</option>
+                <option value="san francisco">san francisco</option>
+                <option value="oakland">oakland</option>
+                <option value="berkeley">berkeley</option>
+                <option value="san jose">san jose</option>
+                <option value="los angeles">los angeles</option>
+                <option value="san diego">san diego</option>
+                <option value="new york">new york</option>
+                <option value="other">somewhere else</option>
+              </select>
+              <i class="chev" data-lucide="chevron-down"></i>
+            </div>
+            <input class="input" id="otherCity" placeholder="which city?" style="display:none;margin-top:10px;" autocomplete="off" autocapitalize="words">
+          </div>
+
+          <div class="field">
+            <label for="ph">phone number</label>
+            <div class="phone-row">
+              <input class="input cc" value="🇺🇸 +1" readonly>
+              <input class="input" id="ph" type="tel" inputmode="numeric" placeholder="(555) 123-4567" autocomplete="tel">
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-lg btn-block" id="sendCode">text me a code</button>
+          <p class="fineprint">by continuing you agree to our <a href="#">terms</a> &amp; <a href="#">privacy policy</a>, and to receive texts from Snackpass.</p>
+        </div>
+
+        <div id="codeGroup" style="display:none;">
+          <div class="field">
+            <label>enter the 6-digit code</label>
+            <div class="otp" id="otp">
+              <input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric">
+            </div>
+          </div>
+          <button class="btn btn-primary btn-lg btn-block" id="verifyCode">submit application</button>
+          <p class="resend">didn't get it? <a href="#" id="resend">resend code</a> · <a href="#" id="editPhone">change number</a></p>
+        </div>
+      </section>
+
+      <!-- STEP 2 — finish in app -->
+      <section class="pane" data-pane="2">
+        <div class="finish-head">
+          <div class="seal"><span class="ring"></span><span class="core"><i data-lucide="check" style="width:36px;height:36px;stroke-width:3;"></i></span></div>
+          <span class="eyebrow">step 2 of 2</span>
+          <h2 style="margin-top:8px;">almost there ✨</h2>
+          <p class="sub">your application is started — finish it in the snackpass app to lock in your spot.</p>
+        </div>
+
+        <ol class="steplist">
+          <li>
+            <span class="num">1</span>
+            <div>
+              <div class="st-b">download the snackpass app</div>
+              <div class="stores">
+                <a class="store" href="#" aria-label="Download on the App Store"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.36 12.78c.02 2.6 2.28 3.46 2.3 3.47-.02.06-.36 1.24-1.19 2.46-.72 1.05-1.47 2.1-2.64 2.12-1.15.02-1.52-.68-2.83-.68-1.32 0-1.72.66-2.81.7-1.13.04-1.99-1.13-2.72-2.18-1.48-2.15-2.62-6.07-1.1-8.72.76-1.32 2.11-2.15 3.57-2.17 1.11-.02 2.16.75 2.83.75.68 0 1.95-.92 3.29-.79.56.02 2.13.23 3.14 1.7-.08.05-1.87 1.1-1.85 3.27zM14.2 4.94c.6-.73 1-1.74.89-2.74-.86.03-1.9.57-2.52 1.3-.55.64-1.04 1.67-.91 2.65.96.07 1.94-.49 2.54-1.21z"/></svg><span class="lbl2"><small>download on the</small><b>App Store</b></span></a>
+                <a class="store" href="#" aria-label="Get it on Google Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 3.5v17a1 1 0 0 0 1.5.87l14.5-8.5a1 1 0 0 0 0-1.74L5.5 2.63A1 1 0 0 0 4 3.5z"/></svg><span class="lbl2"><small>get it on</small><b>Google Play</b></span></a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span class="num">2</span>
+            <div>
+              <div class="st-b">tap the creator badge</div>
+              <div class="st-d">open the app and look for the <span class="badge-chip"><i data-lucide="badge-check" style="width:13px;height:13px;"></i> creator</span> badge.</div>
+            </div>
+          </li>
+          <li>
+            <span class="num">3</span>
+            <div>
+              <div class="st-b">follow the steps there</div>
+              <div class="st-d">complete your creator profile to finish your application.</div>
+            </div>
+          </li>
+        </ol>
+      </section>
+
     </div>
   </div></main>
+
+  <div class="toast" id="toast"><i class="tc" data-lucide="check-circle" style="width:18px;height:18px;"></i><span id="toastMsg">saved</span></div>
 
   <script>
     if(window.lucide) lucide.createIcons();
     const $=s=>document.querySelector(s);
-    [...document.querySelectorAll('video.avvid')].forEach(v=>v.play().catch(()=>{}));
+    const $$=s=>[...document.querySelectorAll(s)];
+    let platform='instagram';
+    $$('video.avvid').forEach(v=>v.play().catch(()=>{}));
 
-    // copy keyword
-    $('#copyKw').addEventListener('click',()=>{
-      navigator.clipboard?.writeText('creators').catch(()=>{});
-      $('#copyLbl').textContent='copied!';
-      setTimeout(()=>{ $('#copyLbl').textContent='copy'; },1600);
+    function toast(msg){const t=$('#toast');$('#toastMsg').textContent=msg;t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),2600);}
+
+    function goStep(n){
+      $$('.pane').forEach(p=>p.classList.toggle('show', +p.dataset.pane===n));
+      $$('#steps .node').forEach(nd=>{ const s=+nd.dataset.step; nd.classList.toggle('active', s===n); nd.classList.toggle('done', s<n); });
+      $$('#steps .bar').forEach(b=>b.classList.toggle('filled', +b.dataset.bar < n));
+      $('.card').scrollIntoView({behavior:'smooth',block:'nearest'});
+      if(window.lucide) lucide.createIcons();
+    }
+
+    // platform toggle
+    $$('#platformSeg button').forEach(b=>b.addEventListener('click',()=>{
+      $$('#platformSeg button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on'); platform=b.dataset.platform;
+      $('#handle').focus();
+    }));
+    $('#handle').addEventListener('input',e=>{ e.target.value=e.target.value.replace(/^@+/,''); });
+
+    // city dropdown + write-in
+    const citySel=$('#city'), otherCity=$('#otherCity');
+    citySel.addEventListener('change',()=>{
+      citySel.classList.toggle('placeholder', !citySel.value);
+      const isOther=citySel.value==='other';
+      otherCity.style.display=isOther?'block':'none';
+      if(isOther) otherCity.focus();
     });
+
+    // submit form -> code
+    $('#sendCode').addEventListener('click',()=>{
+      const name=$('#name').value.trim();
+      const handle=$('#handle').value.trim().replace(/^@+/,'');
+      const city=citySel.value;
+      const otherCityVal=otherCity.value.trim();
+      const v=$('#ph').value.trim();
+      if(!name){ $('#name').focus(); toast('enter your name'); return; }
+      if(!handle){ $('#handle').focus(); toast('enter your handle'); return; }
+      if(!city){ citySel.focus(); toast('select your city'); return; }
+      if(city==='other' && !otherCityVal){ otherCity.focus(); toast('tell us which city'); return; }
+      if(v.replace(/\D/g,'').length<7){ $('#ph').focus(); toast('enter a valid phone number'); return; }
+      $('#phoneGroup').style.display='none';
+      $('#codeGroup').style.display='block';
+      toast('code sent — use any 6 digits');
+      $('#otp input')[0].focus();
+    });
+    $('#editPhone')?.addEventListener('click',e=>{e.preventDefault();$('#codeGroup').style.display='none';$('#phoneGroup').style.display='block';});
+    $('#resend')?.addEventListener('click',e=>{e.preventDefault();toast('new code sent');});
+
+    const otp=$$('#otp input');
+    otp.forEach((inp,i)=>{
+      inp.addEventListener('input',()=>{ if(inp.value && i<otp.length-1) otp[i+1].focus(); });
+      inp.addEventListener('keydown',e=>{ if(e.key==='Backspace' && !inp.value && i>0) otp[i-1].focus(); });
+    });
+    $('#verifyCode').addEventListener('click',()=>goStep(2));
   </script>
 </body></html>
