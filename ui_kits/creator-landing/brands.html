@@ -197,8 +197,8 @@
   @keyframes typedot{0%,60%,100%{opacity:.3;transform:translateY(0);}30%{opacity:1;transform:translateY(-3px);}}
   .imsg{position:relative;width:382px;max-width:100%;margin-left:auto;background:#fff;border:1px solid var(--sp-line);border-radius:30px;box-shadow:var(--shadow-lg);overflow:hidden;animation:floatA 6s var(--ease-out) infinite;}
   .imsg-head{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 16px 13px;border-bottom:1px solid var(--sp-line);background:rgba(255,255,255,.92);}
-  .imsg-head .ava{width:44px;height:44px;border-radius:14px;background:#0A2540;display:flex;align-items:center;justify-content:center;}
-  .imsg-head .ava .dia{width:19px;height:19px;transform:rotate(45deg);border-radius:3px;background:linear-gradient(135deg,#2FC3FF,#0099FF);box-shadow:0 0 11px rgba(47,195,255,.65);}
+  .imsg-head .ava{width:44px;height:44px;border-radius:12px;overflow:hidden;flex:none;box-shadow:var(--shadow-xs);}
+  .imsg-head .ava img{width:100%;height:100%;object-fit:cover;display:block;}
   .imsg-head .nm{font-weight:700;font-size:15px;color:var(--sp-navy);display:flex;align-items:center;gap:6px;}
   .imsg-head .nm svg{color:var(--sp-slate);}
   .imsg-body{padding:18px 16px 20px;display:flex;flex-direction:column;gap:9px;height:548px;overflow:hidden;justify-content:flex-end;}
@@ -328,7 +328,7 @@
       <div class="float-notif nf-top"><div class="ic"><i data-lucide="trending-up"></i></div><div><div class="ttl">this month</div><div class="big">+412K views</div></div></div>
       <div class="imsg">
         <div class="imsg-head">
-          <div class="ava"><span class="dia"></span></div>
+          <div class="ava"><img src="../../assets/logos/app-icon-blue.png" alt="Snackpass Creators"></div>
           <div class="nm">Snackpass Creators <i data-lucide="chevron-right" style="width:15px;height:15px;"></i></div>
         </div>
         <div class="imsg-body" id="thread">
