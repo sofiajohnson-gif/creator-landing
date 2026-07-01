@@ -246,9 +246,11 @@
                 <option value="austin">austin</option>
                 <option value="nashville">nashville</option>
                 <option value="san diego">san diego</option>
+                <option value="other">other</option>
               </select>
               <i class="chev" data-lucide="chevron-down"></i>
             </div>
+            <input class="input" id="otherCity" placeholder="which city?" style="display:none;margin-top:10px;" autocomplete="off" autocapitalize="words">
           </div>
 
           <div class="field">
@@ -290,11 +292,9 @@
           </div>
 
           <div id="finishSoon" style="display:none;">
-            <div class="soon-seal"><i data-lucide="rocket" style="width:32px;height:32px;stroke-width:2.2;"></i></div>
-            <h2>coming soon to <span id="soonCity">your city</span> 🚀</h2>
-            <p class="sub">you're on the list — we'll text you the moment snackpass creators launches near you.</p>
-            <a class="btn btn-primary btn-lg btn-block" id="agencyCta" href="#" target="_blank" rel="noopener">join our creator agency →</a>
-            <p class="agency-note">want collabs now? our creator agency connects you with brands while we launch in your city.</p>
+            <div class="soon-seal"><i data-lucide="message-circle" style="width:32px;height:32px;stroke-width:2.2;"></i></div>
+            <h2>you're on the list ✨</h2>
+            <p class="sub">thanks for applying! our team will be in touch via text soon about creator collabs in <span id="soonCity">your city</span>.</p>
             <p class="fineprint" style="margin-top:18px;"><a href="https://instagram.com/snackpass" target="_blank" rel="noopener">follow @snackpass</a> to stay up to date on all things snackpass creators.</p>
           </div>
         </div>
@@ -330,10 +330,13 @@
     }));
     $('#handle').addEventListener('input',e=>{ e.target.value=e.target.value.replace(/^@+/,''); });
 
-    // city dropdown
-    const citySel=$('#city');
+    // city dropdown + "other" write-in
+    const citySel=$('#city'), otherCity=$('#otherCity');
     citySel.addEventListener('change',()=>{
       citySel.classList.toggle('placeholder', !citySel.value);
+      const isOther=citySel.value==='other';
+      otherCity.style.display=isOther?'block':'none';
+      if(isOther) otherCity.focus();
     });
 
     // submit form -> code
@@ -341,10 +344,12 @@
       const name=$('#name').value.trim();
       const handle=$('#handle').value.trim().replace(/^@+/,'');
       const city=citySel.value;
+      const otherCityVal=otherCity.value.trim();
       const v=$('#ph').value.trim();
       if(!name){ $('#name').focus(); toast('enter your name'); return; }
       if(!handle){ $('#handle').focus(); toast('enter your handle'); return; }
       if(!city){ citySel.focus(); toast('select your city'); return; }
+      if(city==='other' && !otherCityVal){ otherCity.focus(); toast('tell us your city'); return; }
       if(v.replace(/\D/g,'').length<7){ $('#ph').focus(); toast('enter a valid phone number'); return; }
       $('#phoneGroup').style.display='none';
       $('#codeGroup').style.display='block';
@@ -359,13 +364,15 @@
       inp.addEventListener('input',()=>{ if(inp.value && i<otp.length-1) otp[i+1].focus(); });
       inp.addEventListener('keydown',e=>{ if(e.key==='Backspace' && !inp.value && i>0) otp[i-1].focus(); });
     });
-    // active regions -> download-the-app screen; other cities -> coming-soon + creator agency
-    const ACTIVE_CITIES = ['bay area','new york','los angeles']; // TODO: confirm the live-market list
+    // bay area -> download-the-app screen; every other city (incl. "other") -> team-will-be-in-touch
+    const ACTIVE_CITIES = ['bay area'];
     $('#verifyCode').addEventListener('click',()=>{
-      const active = ACTIVE_CITIES.includes(citySel.value);
+      const raw = citySel.value;
+      const displayCity = raw==='other' ? (otherCity.value.trim() || 'your city') : raw;
+      const active = ACTIVE_CITIES.includes(raw);
       document.getElementById('finishActive').style.display = active ? 'block' : 'none';
       document.getElementById('finishSoon').style.display = active ? 'none' : 'block';
-      if(!active) document.getElementById('soonCity').textContent = citySel.value;
+      if(!active) document.getElementById('soonCity').textContent = displayCity;
       goStep(2);
     });
   </script>
