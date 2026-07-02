@@ -258,8 +258,16 @@
             <input class="input" id="otherCity" placeholder="which city?" style="display:none;margin-top:10px;" autocomplete="off" autocapitalize="words">
           </div>
 
+          <div class="field">
+            <label for="ph">phone number</label>
+            <div class="phone-row">
+              <input class="input cc" value="🇺🇸 +1" readonly>
+              <input class="input" id="ph" type="tel" inputmode="numeric" placeholder="(555) 123-4567" autocomplete="tel">
+            </div>
+          </div>
+
           <button class="btn btn-primary btn-lg btn-block" id="submitApply">submit application</button>
-          <p class="fineprint">by continuing you agree to our <a href="#">terms</a> &amp; <a href="#">privacy policy</a>.</p>
+          <p class="fineprint">by continuing you agree to our <a href="#">terms</a> &amp; <a href="#">privacy policy</a>, and to receive texts from Snackpass.</p>
         </div>
       </section>
 
@@ -333,10 +341,12 @@
       const handle=$('#handle').value.trim().replace(/^@+/,'');
       const raw=citySel.value;
       const otherCityVal=otherCity.value.trim();
+      const phone=$('#ph').value.trim();
       if(!name){ $('#name').focus(); toast('enter your name'); return; }
       if(!handle){ $('#handle').focus(); toast('enter your handle'); return; }
       if(!raw){ citySel.focus(); toast('select your city'); return; }
       if(raw==='other' && !otherCityVal){ otherCity.focus(); toast('tell us your city'); return; }
+      if(phone.replace(/\D/g,'').length<7){ $('#ph').focus(); toast('enter a valid phone number'); return; }
 
       const city = raw==='other' ? otherCityVal : raw;
       const btn=$('#submitApply'), orig=btn.textContent;
@@ -346,7 +356,7 @@
       try{
         if(SHEET_ENDPOINT.indexOf('http')===0){
           const fd=new FormData();
-          fd.append('name',name); fd.append('handle',handle); fd.append('platform',platform); fd.append('city',city);
+          fd.append('name',name); fd.append('handle',handle); fd.append('platform',platform); fd.append('city',city); fd.append('phone',phone);
           await fetch(SHEET_ENDPOINT,{method:'POST',mode:'no-cors',body:fd});
         }
       }catch(e){}
